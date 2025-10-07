@@ -64,7 +64,7 @@ func (s *TransferService) InitiateTransfer(senderID string, req models.TransferR
 		return nil, errors.New("failed to create transfer")
 	}
 
-	// 🎯 SAGA PATTERN: Points are NOT deducted here - only when receiver claims
+	//  SAGA PATTERN: Points are NOT deducted here - only when receiver claims
 	// This ensures points remain with sender if receiver doesn't claim
 
 	// 5. OBSERVER PATTERN: Send email notification asynchronously
@@ -113,7 +113,7 @@ func (s *TransferService) CompleteTransfer(transferID string) error {
 	// 4. STATUS UPDATE: Mark transfer as completed
 	transfer.Status = "completed"
 	if err := s.transferRepo.Update(transfer); err != nil {
-		// ⚠️ SAGA COMPENSATION: Points deducted but transfer not completed
+		//  SAGA COMPENSATION: Points deducted but transfer not completed
 		// In production, implement compensation logic here
 		return errors.New("failed to complete transfer")
 	}
